@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://piramalvaikunthphase2.com/sitemap.xml

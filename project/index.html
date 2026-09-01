@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <link rel="preconnect" href="https://luxury-living-backend.onrender.com" crossorigin />
+    <link rel="dns-prefetch" href="https://luxury-living-backend.onrender.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <script>
+      var isLive = true;
+      var API_BASE = isLive ? 'https://luxury-living-backend.onrender.com' : '';
+      fetch(API_BASE + '/api/upload/files').then(r => r.json()).then(files => {
+        if(Array.isArray(files)) {
+          var heroFile = files.find(f => f.name.includes('HERO_IMAGE')) || files[0];
+          if (heroFile && heroFile.url) {
+            var link = document.createElement('link');
+            link.rel = 'preload'; link.as = 'image'; link.fetchPriority = 'high';
+            link.href = heroFile.url.startsWith('http') ? heroFile.url : API_BASE + heroFile.url;
+            document.head.appendChild(link);
+          }
+        }
+      }).catch(e => console.error(e));
+    </script>
+    <meta name="theme-color" content="#ffffff" />
+    <title>Piramal Vaikunth Phase 2 - Balkum, Thane West</title>
+    <meta name="description" content="Piramal Vaikunth Phase 2 in Balkum, Thane West offers premium 2 & 3 BHK apartments." />
+  </head>
+  <body>
+    <style>
+      body { margin: 0; background-color: #ffffff; font-family: sans-serif; }
+      #skeleton {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        z-index: 9999; background: #fff; pointer-events: none;
+      }
+      .sk-header { height: 80px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; padding: 0 5%; }
+      .sk-logo { width: 40px; height: 40px; background: #2563eb; border-radius: 8px; }
+      .sk-hero { height: calc(100vh - 80px); background: #f3f4f6; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    </style>
+    <div id="skeleton">
+      <div class="sk-header"><div class="sk-logo"></div></div>
+      <div class="sk-hero"></div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Remove skeleton when React mounts
+      const observer = new MutationObserver(() => {
+        if (document.getElementById('root').hasChildNodes()) {
+          document.getElementById('skeleton')?.remove();
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.getElementById('root'), { childList: true });
+    </script>
+  </body>
+</html>
